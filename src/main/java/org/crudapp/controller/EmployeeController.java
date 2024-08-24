@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/employees")
@@ -28,6 +31,8 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
     @GetMapping
     public List<Employee> getAllEmployees(){
@@ -38,6 +43,7 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee)
     {
+        logger.info("Creating new employee with details: {}", employee);
         Employee savedEmployee = employeeRepository.save(employee);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
@@ -46,6 +52,7 @@ public class EmployeeController {
     @GetMapping("{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable  long id)
     {
+        logger.info("Fetching employee with id: {}", id);
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id:" + id));
         return ResponseEntity.ok(employee);
@@ -55,6 +62,7 @@ public class EmployeeController {
     @PutMapping("{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable long id,@RequestBody Employee employeeDetails) {
 
+        logger.info("going to update employee with id: {}", id);
         Employee updateEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
 
@@ -71,6 +79,7 @@ public class EmployeeController {
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable long id){
 
+        logger.info("Deleting employee with id: {}", id);
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
 
