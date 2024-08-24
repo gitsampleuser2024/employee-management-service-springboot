@@ -71,6 +71,7 @@ public class EmployeeController {
         updateEmployee.setEmailId(employeeDetails.getEmailId());
 
         employeeRepository.save(updateEmployee);
+        logger.info("update done for employee with id: {}", id);
 
         return ResponseEntity.ok(updateEmployee);
     }
@@ -79,7 +80,7 @@ public class EmployeeController {
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable long id){
 
-        logger.info("Deleting employee with id: {}", id);
+        logger.info("Attempting deletion of  employee with id: {}", id);
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
 

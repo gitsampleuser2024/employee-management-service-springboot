@@ -135,7 +135,7 @@ public class EmployeeControllerTests {
         Mockito.when(employeeRepository.save(Mockito.any())).thenReturn(null);
         mockMvc.perform(post("/api/employees")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"firstName\":\"John Doe\"}"))
+                        .content("{\"firstName\":\"John \",\"lastName\":\"Doe\",\"emailId\":\"test@gmail.com\"}"))
                 .andExpect(status().isCreated());
     }
 
