@@ -71,6 +71,7 @@ public class EmployeeController {
         updateEmployee.setEmailId(employeeDetails.getEmailId());
 
         employeeRepository.save(updateEmployee);
+        logger.info("update done for employee with id: {}", id);
 
         return ResponseEntity.ok(updateEmployee);
     }
@@ -84,6 +85,7 @@ public class EmployeeController {
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
 
         employeeRepository.delete(employee);
+        logger.info("Delete successfull for employee with id: {}", id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
